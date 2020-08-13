@@ -1,0 +1,25 @@
+
+{%  extends 'main.html' %}
+
+{% block content %}
+
+		<br>
+
+		<div class="row">
+			<div class="col-md">
+				<div class="card card-body">
+				{% if recipe %}
+					<h1>{{recipe.title}}</h1>
+					<h3><a href="/authors/{{recipe.author.id}}">{{recipe.author}}</a></h3>
+					<h4>Time Required: {{recipe.time_Required}}</h4>
+					<h4>Description: {{recipe.description}}</h4>
+					<h4>Instructions: {{recipe.instructions}}</h4>
+				{% endif %}
+				</div>
+				
+				</div>
+			</div>
+			
+		</div>
+
+{% endblock content %}

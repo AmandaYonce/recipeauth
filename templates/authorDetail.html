@@ -1,0 +1,26 @@
+
+{%  extends 'main.html' %}
+
+{% block content %}
+
+		<br>
+
+		<div class="row">
+			<div class="col-md">
+				<div class="card card-body">
+					<h1>{{details.name}}</h1>
+					<h6>{{details.bio}}</h6>
+					<table class="table">
+                        {% for each in details.recipes %}
+							<tr>
+								<td><a href="/recipes/{{each.id}}">{{each.title}}</a></td>
+							</tr>
+							{% endfor %}
+					</table>
+				</div>
+			</div>
+			
+		</div>
+
+{% endblock content %}
+
