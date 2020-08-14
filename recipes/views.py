@@ -34,7 +34,7 @@ def recipe_form_view(request):
                     title=data.get('title'),
                     author=data.get('author'),
                     description=data.get('description'),
-                    time_Required=data.get('timr_Required'),
+                    time_Required=data.get('time_Required'),
                     instructions=data.get('instructions')
                 )
                 return HttpResponseRedirect(reverse('homepage'))
@@ -48,7 +48,7 @@ def recipe_form_view(request):
                     title=data.get('title'),
                     author=request.user.author,
                     description=data.get('description'),
-                    time_Required=data.get('timr_Required'),
+                    time_Required=data.get('time_Required'),
                     instructions=data.get('instructions')
                 )
                 return HttpResponseRedirect(reverse('homepage'))
