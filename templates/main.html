@@ -17,6 +17,9 @@
         <tr>
             <th>Recipe Name</th>
         </tr>
+        {% if request.user.is_authenticated %}
+        <h2>Welcome, {{request.user.author.name}}</h2>
+        {% endif %}
         <p><a href="/newauthor/">New Author  </a></p>
         <p><a href="/newrecipe/">New Recipe  </a></p>
 
@@ -28,7 +31,7 @@
         {% endfor %}
     </table>
 </div>
-
+<button>Logout</button>
 {% endblock %}
 
 </div>

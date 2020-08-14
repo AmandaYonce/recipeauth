@@ -1,7 +1,13 @@
 <form action="/newrecipe/" method='post'>
 
     {% csrf_token %}
+    {% if request.user.is_staff%}
+        <h1>Admin Logged in</h1>
+        {{ form.as_p }}
+    {% else %}
+    
     {{ form.as_p }}
+    {% endif%}
 
     <input type="submit" value="Submit">
 
