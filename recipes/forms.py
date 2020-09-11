@@ -1,5 +1,5 @@
 from django import forms
-from .models import Author
+from recipes.models import Author, Recipe
 
 
 class AuthorForm(forms.Form):
@@ -31,3 +31,9 @@ class LoginForm(forms.Form):
 class SignupForm(forms.Form):
     username = forms.CharField(max_length=200)
     password = forms.CharField(widget=forms.PasswordInput)
+
+
+class EditRecipes(forms.ModelForm):
+    class Meta:
+        model = Recipe
+        fields = ['title', 'author', 'description', 'time_Required', 'instructions']
