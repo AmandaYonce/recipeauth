@@ -1,6 +1,6 @@
-from django.shortcuts import render, HttpResponseRedirect, reverse
-from .models import *
-from .forms import UserRecipeForm, AuthorForm, LoginForm, SignupForm, AdminRecipeForm
+from django.shortcuts import render, HttpResponseRedirect, HttpResponse, reverse
+from recipes.models import Author, Recipe
+from .forms import UserRecipeForm, AuthorForm, LoginForm, SignupForm, AdminRecipeForm, EditRecipes
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -13,9 +13,16 @@ def home(request):
 
 def authors(request, author_id):
     authorInfo = Author.objects.filter(id=author_id).first()
+    favorited = authorInfo.favorites.all()
     my_recipes = Recipe.objects.filter(author=author_id)
-    context = {"name": authorInfo.name, "bio": authorInfo.bio, "recipes": my_recipes}
-    return render(request, 'authorDetail.html', {"details": context})
+    context = {"name": authorInfo.name, "bio": authorInfo.bio, "recipes": my_recipes, "favorites": authorInfo.favorites}
+    return render(request, 'authorDetail.html', {"details": context, "favorited":favorited})
+
+
+def favorite_button(request, recipe_id):
+    filtered_recipe = Recipe.objects.filter(id=recipe_id).first()
+    request.user.author.favorites.add(filtered_recipe)
+    return HttpResponseRedirect (request.META.get("HTTP_REFERER", '/'))
 
 
 def recipes(request, recipe_id):
@@ -101,8 +108,25 @@ def signup_view(request):
     return render(request, "signup_form.html", {'form': form})
 
 
-
-
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('homepage'))
+
+@login_required
+def edit_recipe_view(request, recipe_id):
+    recipe_instance = Recipe.objects.filter(id=recipe_id).first()
+    if request.user.is_staff or request.user.author == recipe_instance.author:
+        form = EditRecipes(instance=recipe_instance)
+        if request.method == "POST":
+            form = EditRecipes(request.POST, instance=recipe_instance)
+            form.save()
+            return HttpResponseRedirect(reverse('homepage'))
+        return render(request, 'generic_form.html', {'form': form})
+    else: 
+        return HttpResponse('Access Denied.')
+        
+
+
+
+
+    

@@ -4,7 +4,6 @@
 {% block content %}
 
 		<br>
-
 		<div class="row">
 			<div class="col-md">
 				<div class="card card-body">
@@ -15,7 +14,15 @@
 							<tr>
 								<td><a href="/recipes/{{each.id}}">{{each.title}}</a></td>
 							</tr>
-							{% endfor %}
+						{% endfor %}
+					</table>
+					<h2>My Favorites</h2>
+					<table class="table">
+                        {% for favorite in favorited %}
+							<tr>
+								<td><a href="/recipes/{{favorite.id}}">{{favorite.title}}</a></td>
+							</tr>
+						{% endfor %}
 					</table>
 				</div>
 			</div>
